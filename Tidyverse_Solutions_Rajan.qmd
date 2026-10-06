@@ -41,3 +41,81 @@ tribble( ~x,    ~y,    ~w,    ~z,
               110,   122,  131,    128,
 ) -> dt
 ```
+
+## 1_a:
+
+-   Use and show a `map` function to find the "mean" of each column of the `dt` data table
+
+```{r}
+map(dt, mean)
+```
+
+## 1_b:
+
+-   Use and show a `map` function to find the "standard deviation" of each column of the `dt` data table.
+
+```{r}
+map(dt, sd)
+```
+
+## 1_c:
+
+-   Use and show a map function that will calculate the "square root" of each value of each column of the data table `dt`.
+
+```{r}
+map(dt, sqrt)
+```
+
+## 1_d:
+
+-   Use R code to find the "mean", "max", "1st Quartile", "3rd Quartile", "Median", and "Min" for each column of the `dt` data table. (Hint: You do not have to use a map function)
+
+```{r}
+summary(dt)
+```
+
+# Problem 2
+
+## 2_a:
+
+Repeat part 1 by using a `map_*()` function.
+
+```{r}
+means <- map_dbl(1:10000, ~mean(rexp(5, rate = 1)))
+
+hist(means,
+     main = "Distribution of Sample Means",
+     xlab = "Mean",
+     breaks = 30)
+```
+
+## 2_b:
+
+Repeat part 1 by using the `replicate()` function.
+
+```{r}
+means <- replicate(10000, mean(rexp(5, rate = 1)))
+
+hist(means,
+     main = "Distribution of Sample Means",
+     xlab = "Mean",
+     breaks = 30)
+```
+
+## 2_c:
+
+Use another for loop that will print out plots for sample sizes of 5, 10, and 20 observations.
+
+```{r}
+sample_sizes <- c(5, 10, 20)
+
+for (n in sample_sizes) {
+  
+  means <- replicate(10000, mean(rexp(n, rate = 1)))
+  
+  hist(means,
+       main = paste("Sample Size =", n),
+       xlab = "Mean",
+       breaks = 30)
+}
+```
