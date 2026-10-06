@@ -45,6 +45,7 @@ tribble( ~x,    ~y,    ~w,    ~z,
 ## 1_a:
 
 -   Use and show a `map` function to find the "mean" of each column of the `dt` data table
+-   The `map()` function applies the `mean()` function to each column of the `dt` data table. This calculates the average value for each variable separately.
 
 ```{r}
 map(dt, mean)
@@ -53,6 +54,7 @@ map(dt, mean)
 ## 1_b:
 
 -   Use and show a `map` function to find the "standard deviation" of each column of the `dt` data table.
+-   The `map()` function applies the `sd()` function to each column of `dt`. This calculates the standard deviation for each variable, which measures how spread out the values are from their mean.
 
 ```{r}
 map(dt, sd)
@@ -61,6 +63,7 @@ map(dt, sd)
 ## 1_c:
 
 -   Use and show a map function that will calculate the "square root" of each value of each column of the data table `dt`.
+-   The `map()` function applies the `sqrt()` function to every value in each column of `dt`. This calculates the square root of each observation.
 
 ```{r}
 map(dt, sqrt)
@@ -69,6 +72,7 @@ map(dt, sqrt)
 ## 1_d:
 
 -   Use R code to find the "mean", "max", "1st Quartile", "3rd Quartile", "Median", and "Min" for each column of the `dt` data table. (Hint: You do not have to use a map function)
+-   The `summary()` function calculates several descriptive statistics for each column of `dt`. These include the minimum, first quartile, median, mean, third quartile, and maximum.
 
 ```{r}
 summary(dt)
@@ -78,7 +82,9 @@ summary(dt)
 
 ## 2_a:
 
-Repeat part 1 by using a `map_*()` function.
+-   Repeat part 1 by using a `map_*()` function.
+
+-   `map_dbl()` repeats the calculation 10,000 times and returns the results as a numeric vector. During each iteration, `rexp(5, rate = 1)` generates five random observations from an exponential distribution, and `mean()` calculates their mean. The histogram shows the distribution of the resulting 10,000 sample means.
 
 ```{r}
 means <- map_dbl(1:10000, ~mean(rexp(5, rate = 1)))
@@ -91,7 +97,9 @@ hist(means,
 
 ## 2_b:
 
-Repeat part 1 by using the `replicate()` function.
+-   Repeat part 1 by using the `replicate()` function.
+
+-   The `replicate()` function repeats the expression `mean(rexp(5, rate = 1))` 10,000 times. Each repetition generates five observations from the exponential distribution and calculates their mean. The resulting vector of means is then displayed as a histogram.
 
 ```{r}
 means <- replicate(10000, mean(rexp(5, rate = 1)))
@@ -104,7 +112,9 @@ hist(means,
 
 ## 2_c:
 
-Use another for loop that will print out plots for sample sizes of 5, 10, and 20 observations.
+-   Use another for loop that will print out plots for sample sizes of 5, 10, and 20 observations.
+
+-   The `for` loop runs the simulation for three different sample sizes: 5, 10, and 20 observations. For each sample size, 10,000 sample means are calculated and displayed as a histogram. As the sample size increases, the distribution of sample means becomes narrower and more concentrated around the population mean.
 
 ```{r}
 sample_sizes <- c(5, 10, 20)
@@ -122,7 +132,9 @@ for (n in sample_sizes) {
 
 # Problem 3:
 
-Use and show R coding to calculate the "standard deviation" for each variable of the data table `mtcars` using the "Special For Loop Method".
+-   Use and show R coding to calculate the "standard deviation" for each variable of the data table `mtcars` using the "Special For Loop Method".
+
+-   The `vector()` function creates an empty numeric vector with one position for each column in `mtcars`. The `for` loop then goes through each column using `seq_along()`. For each column, `sd()` calculates its standard deviation and stores the result in the corresponding position of `output`. Finally, `names(output)` assigns the original column names to the results so that each standard deviation can be identified.
 
 ```{r}
 output <- vector("double", ncol(mtcars))
@@ -147,7 +159,9 @@ output
 
 # Problem 4
 
-Generate a sequence of dates from January 1, 2015 to December 31, 2025, spaced by every two months. Extract the year, quarter, and ISO week number for each date.
+-   Generate a sequence of dates from January 1, 2015 to December 31, 2025, spaced by every two months. Extract the year, quarter, and ISO week number for each date.
+
+-   `seq.Date()` creates a sequence of dates beginning on January 1, 2015 and continuing through December 31, 2025, with a two-month interval between dates. The `year()` function extracts the year, `quarter()` extracts the quarter of the year, and `isoweek()` extracts the ISO week number. These values are combined into a data frame so that each date and its corresponding information can be viewed together.
 
 ```{r}
 dates <- seq.Date(
@@ -168,9 +182,11 @@ problem4
 
 # Problem 5
 
-Given the following dates, compute the difference in months and weeks between each consecutive pair.
+-   Given the following dates, compute the difference in months and weeks between each consecutive pair.
 
 sample_dates \<- c("2018-03-15", "2020-07-20", "2023-01-10", "2025-09-05")
+
+-   First, the character strings are converted into Date objects using `as.Date()`. The dates are then compared in consecutive pairs. `interval()` and `months(1)` are used to calculate the number of completed months between each pair of dates. `difftime()` calculates the elapsed time in weeks. Finally, `data.frame()` combines the starting date, ending date, month difference, and week difference into a table.
 
 ```{r}
 sample_dates <- c("2018-03-15", "2020-07-20", "2023-01-10", "2025-09-05")
@@ -194,7 +210,9 @@ data.frame(
 
 # Problem 6
 
-Given a list of mixed date formats, use `map()` and `possibly()` from `purrr` to safely convert them to **Date** format and extract the **month name**.
+-   Given a list of mixed date formats, use `map()` and `possibly()` from `purrr` to safely convert them to **Date** format and extract the **month name**.
+
+-   The dates are stored as a list because they have different formats. The `possibly()` function creates a safe version of the date-parsing function so that an invalid date does not cause the entire operation to fail. `parse_date_time()` attempts to recognize the different date formats. `map()` applies this safe parsing function to every item in the list. The invalid date is returned as `NA`. Finally, `map_chr()` extracts the full month name from each valid date while keeping the invalid date as `NA`.
 
 ```{r}
 date_strings <- list(
