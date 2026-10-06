@@ -119,6 +119,7 @@ for (n in sample_sizes) {
        breaks = 30)
 }
 ```
+
 # Problem 3:
 
 Use and show R coding to calculate the "standard deviation" for each variable of the data table `mtcars` using the "Special For Loop Method".
@@ -144,7 +145,7 @@ names(output) <- names(mtcars)
 output
 ```
 
-# Problem 4 
+# Problem 4
 
 Generate a sequence of dates from January 1, 2015 to December 31, 2025, spaced by every two months. Extract the year, quarter, and ISO week number for each date.
 
@@ -163,5 +164,31 @@ problem4 <- data.frame(
 )
 
 problem4
+```
+
+# Problem 5
+
+Given the following dates, compute the difference in months and weeks between each consecutive pair.
+
+sample_dates \<- c("2018-03-15", "2020-07-20", "2023-01-10", "2025-09-05")
+
+```{r}
+sample_dates <- c("2018-03-15", "2020-07-20", "2023-01-10", "2025-09-05")
+
+sample_dates <- as.Date(sample_dates)
+
+months_diff <- interval(sample_dates[-length(sample_dates)],
+                        sample_dates[-1]) %/% months(1)
+
+weeks_diff <- as.numeric(
+  difftime(sample_dates[-1], sample_dates[-length(sample_dates)], units = "weeks")
+)
+
+data.frame(
+  from = sample_dates[-length(sample_dates)],
+  to = sample_dates[-1],
+  months = months_diff,
+  weeks = weeks_diff
+)
 ```
 
